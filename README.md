@@ -39,8 +39,8 @@ Traditional change detection identifies *where* pixels changed; our pipeline exp
 Ensure you are using Python 3.10+ and a GPU suitable for bfloat16 inference.
 
 ```bash
-git clone https://github.com/anonymous-submission/ranking-the-changes.git
-cd ranking-the-changes
+git clone https://github.com/Roie-k/ChangeCaptioningDataset.git
+cd ChangeCaptioningDataset
 pip install -r requirements.txt
 ```
 
