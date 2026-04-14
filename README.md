@@ -8,6 +8,8 @@ This repository provides the official implementation of the semi-supervised pipe
 
 ## 🛰️ Overview
 
+![Pipeline Overview](change_detection_pipeline_new_2-1.png)
+
 Traditional change detection identifies *where* pixels changed; our pipeline explains *what* changed using natural language. The framework utilizes a novel hierarchical filtering approach to mitigate the high cost and inconsistency of manual annotation in the remote sensing domain.
 
 ### Key Contributions
