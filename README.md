@@ -1,6 +1,6 @@
 # Ranking the Changes: Reinforced Best-of-N Ranking for Semantic Change Captioning
 
-![Data Examples](data_example.pdf)
+![Data Examples](data_exmaple.pdf)
 
 This repository provides the official implementation of the semi-supervised pipeline introduced in **"Ranking the Changes: Reinforced Best-of-N Ranking with Retrieval-Augmented Vision-Language Models for Semantic Change Captioning"**. This framework generates high-quality semantic change captioning datasets by aligning visual multi-temporal evidence with natural language descriptions.
 
