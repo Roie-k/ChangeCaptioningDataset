@@ -45,7 +45,7 @@ pip install -r requirements.txt
 ```
 
 ### Authentication
-1.  **Hugging Face:** Login to access public weights (Gemma 3, SigLIP 2):
+1.  **Hugging Face:** Login to access public weights (Gemma 3):
     ```bash
     huggingface-cli login
     ```
