@@ -4,6 +4,119 @@
 
 This repository provides the official implementation of the semi-supervised pipeline introduced in **"Ranking the Changes: Reinforced Best-of-N Ranking with Retrieval-Augmented Vision-Language Models for Semantic Change Captioning"**. This framework generates high-quality semantic change captioning datasets by aligning visual multi-temporal evidence with natural language descriptions.
 
+**Dataset and Code available at:** [https://huggingface.co/datasets/google/RSRCC](https://huggingface.co/datasets/google/RSRCC)
+
+## 📂 Dataset Structure
+
+The dataset is organized into three standard splits:
+
+- `train/`
+- `val/`
+- `test/`
+
+Each split contains:
+
+- `images/`  
+  Bucketed folders containing deduplicated image files.
+- `metadata.csv`  
+  Metadata file linking image pairs to their textual annotation.
+
+Each sample includes:
+
+- a **before** image
+- an **after** image
+- a natural-language question and answer describing the semantic change
+
+---
+
+## 🖼️ Annotation Format
+
+Each row in the metadata corresponds to a temporal image pair and an associated text annotation.
+
+The annotations are designed to capture semantic changes in a way that supports reasoning-oriented evaluation. Example formats include:
+
+- **Yes/No**
+  - “Has a new structure been built near the intersection?”
+- **Multiple-Choice**
+  - “What change occurred to the building in the northeast part of the image?”
+
+This structure makes the dataset suitable for training and evaluating models on multimodal temporal reasoning.
+
+---
+
+## 🎯 Intended Use
+
+RSRCC is intended for research on:
+
+- semantic change captioning
+- vision-language reasoning over remote sensing imagery
+- multimodal question answering
+- temporal scene understanding
+- instruction tuning for remote sensing foundation models
+
+---
+
+## ⚠️ Notes
+
+- The images are stored in bucketed subfolders for efficient hosting and repository limits.
+- Image files are deduplicated so that repeated questions over the same scene pair reuse the same underlying before/after images.
+- Metadata paths are relative to each split directory.
+
+---
+
+## 📥 Loading the Dataset
+
+RSRCC can be loaded directly from the Hugging Face Hub using the `datasets` library.
+
+```python
+from datasets import load_dataset
+
+dataset = load_dataset("google/RSRCC", split="train", streaming=True)
+
+sample = next(iter(dataset))
+print(sample.keys())
+print(sample["text"])
+```
+
+Each sample provides three fields:
+
+- before: the pre-change image
+- after: the post-change image
+- text: the semantic question-answer annotation
+
+For quick inspection, we recommend using streaming=True, which allows reading a small number of samples without downloading the full split.
+
+
+### 🖼️ Plot a Simple Example
+
+The example below loads one sample and visualizes the temporal image pair.
+
+```python
+from datasets import load_dataset
+import matplotlib.pyplot as plt
+
+dataset = load_dataset("google/RSRCC", split="train", streaming=True)
+sample = next(iter(dataset))
+
+print(sample["text"])
+
+plt.figure(figsize=(10, 4))
+
+plt.subplot(1, 2, 1)
+plt.imshow(sample["before"])
+plt.title("Before")
+plt.axis("off")
+
+plt.subplot(1, 2, 2)
+plt.imshow(sample["after"])
+plt.title("After")
+plt.axis("off")
+
+plt.show()
+```
+
+---
+
 ---
 
 ## 🛰️ Overview
@@ -74,24 +187,5 @@ The generated dataset includes visual reasoning questions for temporal satellite
 Each sample consists of a temporal pair accompanied by a generated question:
 * **Yes/No:** "Is there a new house visible now at the bottom-left of the cul-de-sac?".
 * **Multiple-Choice:** captures discrete interpretations such as "Several new residential buildings have been constructed".
-
----
-
-## 🏃 Usage
-
-### 1. Execute Pipeline
-Run the full discovery pipeline on a subset of LEVIR-CD:
-```bash
-python main.py \
-    --input_dir ./data/levir_sample \
-    --examples_csv ./data/rag_human_annotations.csv \
-    --output_file ./output/SCC_dataset.jsonl
-```
-
-### 2. Run Benchmarks
-Evaluate model performance using established metrics (BLEU, BERTScore, CIDEr, SPICE):
-```bash
-python gemma_evaluation.py --input ./output/SCC_dataset.jsonl --output ./results/metrics.csv
-```
 
 ---
