@@ -1,10 +1,43 @@
-# Ranking the Changes: Reinforced Best-of-N Ranking for Semantic Change Captioning
+# RSRCC: Semantic Remote Sensing Reasoning Change Captioning via Best-of-N Ranking and Retrieval-Augmented Vision-Language Curation
 
 ![Data Examples](data_example.png)
 
-This repository provides the official implementation of the semi-supervised pipeline introduced in **"Ranking the Changes: Reinforced Best-of-N Ranking with Retrieval-Augmented Vision-Language Models for Semantic Change Captioning"**. This framework generates high-quality semantic change captioning datasets by aligning visual multi-temporal evidence with natural language descriptions.
+This repository provides the official code and benchmark resources for **RSRCC**, a remote sensing benchmark for **localized semantic change reasoning** over bi-temporal satellite image pairs. Unlike prior datasets that mainly describe global before/after differences at the scene level, RSRCC is built around **localized, change-specific question answering**, where each example targets a particular semantic change instance.
 
-**Dataset and Code available at:** [https://huggingface.co/datasets/google/RSRCC](https://huggingface.co/datasets/google/RSRCC)
+The benchmark is constructed through a hierarchical semi-supervised curation pipeline that combines:
+- semantic segmentation for candidate localization,
+- image-text semantic screening with a remote-sensing-tuned vision-language encoder,
+- retrieval-augmented **Best-of-N** validation for ambiguous cases,
+- and LLM-based linguistic generation of region-grounded question-answer pairs.
+
+**Dataset:** https://huggingface.co/datasets/google/RSRCC\
+
+## Overview
+
+Traditional change detection identifies **where** changes occur, typically through binary or semantic masks. RSRCC is designed to evaluate **what changed** at the level of a specific localized semantic instance. Each example asks the model to reason about a particular region or object rather than summarize the whole scene. This makes RSRCC a benchmark for:
+- localized semantic change recognition,
+- temporal comparison,
+- region-grounded multimodal reasoning,
+- and semantic disambiguation between meaningful changes and distractors. 
+
+The current release contains **126k** examples, split into train, validation, and test sets. The dataset is intended as a benchmark resource for multimodal models operating on remote sensing imagery. 
+
+---
+
+## What RSRCC Measures
+
+RSRCC is designed to measure:
+- whether a specific localized semantic change is present,
+- what semantic category best explains the observed change,
+- whether the model can distinguish true changes from no-change distractors,
+- and whether the model can answer grounded questions about a specific region across time. 
+
+RSRCC is **not** designed to measure:
+- open-vocabulary change discovery beyond the predefined class space,
+- unrestricted global scene summarization,
+- or reasoning over arbitrary unseen semantic categories. The current benchmark remains tied to a predefined semantic taxonomy and may underperform on novel or highly compositional changes outside this label space. 
+
+---
 
 ## 📂 Dataset Structure
 
@@ -31,16 +64,23 @@ Each sample includes:
 
 ## 🖼️ Annotation Format
 
-Each row in the metadata corresponds to a temporal image pair and an associated text annotation.
+RSRCC contains three question formats:
 
-The annotations are designed to capture semantic changes in a way that supports reasoning-oriented evaluation. Example formats include:
+- **Yes/No**  
+  Binary questions verifying the presence or absence of a specific semantic change.
 
-- **Yes/No**
-  - “Has a new structure been built near the intersection?”
-- **Multiple-Choice**
-  - “What change occurred to the building in the northeast part of the image?”
+- **Multiple Choice (MCQ)**  
+  Four-option questions asking which interpretation best explains the localized change.
 
-This structure makes the dataset suitable for training and evaluating models on multimodal temporal reasoning.
+- **Open-Ended**  
+  Free-form descriptive questions for linguistic diversity and semantic coverage. 
+
+Example question types include:
+- “Has a new structure been built near the intersection?”
+- “What change occurred to the building in the northeast part of the image?” 
+
+Importantly, the LLM is **not** used to determine whether a change occurred. The semantic label is derived from the visual curation pipeline, while the LLM is used only to generate natural question-answer phrasings conditioned on the validated localized region.
+
 
 ---
 
