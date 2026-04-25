@@ -72,9 +72,6 @@ RSRCC contains three question formats:
 - **Multiple Choice (MCQ)**  
   Four-option questions asking which interpretation best explains the localized change.
 
-- **Open-Ended**  
-  Free-form descriptive questions for linguistic diversity and semantic coverage. 
-
 Example question types include:
 - “Has a new structure been built near the intersection?”
 - “What change occurred to the building in the northeast part of the image?” 
