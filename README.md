@@ -189,8 +189,8 @@ Traditional change detection identifies *where* pixels changed; our pipeline exp
 Ensure you are using Python 3.10+ and a GPU suitable for bfloat16 inference.
 
 ```bash
-git clone https://github.com/Roie-k/ChangeCaptioningDataset.git
-cd ChangeCaptioningDataset
+git clone https://github.com/Roie-k/RSRCC.git
+cd RSRCC
 pip install -r requirements.txt
 ```
 
