@@ -10,7 +10,7 @@ The benchmark is constructed through a hierarchical semi-supervised curation pip
 - retrieval-augmented **Best-of-N** validation for ambiguous cases,
 - and LLM-based linguistic generation of region-grounded question-answer pairs.
 
-**Dataset:** https://huggingface.co/datasets/google/RSRCC\
+**Dataset:** https://huggingface.co/datasets/google/RSRCC
 
 ## Overview
 
